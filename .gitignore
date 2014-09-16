@@ -1,0 +1,7 @@
+*~
+*.sw?
+*.beam
+log/
+*.app
+lib/
+releases/
