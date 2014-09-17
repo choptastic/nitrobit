@@ -17,6 +17,11 @@ $ bin/nitrogen console
 
 Then open your browse to: http://127.0.0.1:8002
 
+# If you're new to Nitrogen
+
+The file we're focusing on is
+[site/src/index.erl](https://github.com/choptastic/nitrobit/blob/master/site/src/index.erl)
+
 # Author
 
 Jesse Gumm (@jessegumm).
