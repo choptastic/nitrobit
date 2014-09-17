@@ -45,7 +45,7 @@ event(start) ->
 transaction_loop(Address, Txs) ->
     {Worth, AllTxs} = blockchain:get_address(Address),
     NewTxs = AllTxs -- Txs,
-    wf:update(worth, [blockchain:format_amount(Worth), " BTC"]),
+    wf:update(worth, blockchain:format_amount(Worth)),
     insert_transactions(NewTxs),
     wf:flush(),
     timer:sleep(5000),
@@ -58,7 +58,7 @@ insert_transactions(Txs) ->
 draw_transaction({_Hash, Time, Value, Addresses}) ->
     #panel{actions=#effect{effect=slide, speed=1500}, body=[
         qdate:to_string("Y-m-d g:ia", Time),
-        ": <b>", blockchain:format_amount(Value), " BTC</b> received ",
+        ": <b>", blockchain:format_amount(Value),"</b> received ",
         wf:join(Addresses,", "),
         #hr{}
     ]}.
