@@ -32,7 +32,6 @@ watching_form(Address) ->
                 "Current Value: ",
                 #span{id=worth, text="Loading..."}
             ]},
-            #h3{text="Receipts"},
             #panel{id=transactions}
         ]}
     ].
@@ -48,6 +47,7 @@ transaction_loop(Address, Txs) ->
     wf:update(worth, blockchain:format_amount(Worth)),
     insert_transactions(NewTxs),
     wf:flush(),
+    io:format("~p watching ~s~n",[self(), Address]),
     timer:sleep(5000),
     ?MODULE:transaction_loop(Address, NewTxs ++ Txs).
 
@@ -55,10 +55,10 @@ insert_transactions(Txs) ->
     TxsBody = [draw_transaction(T) || T <- Txs],
     wf:insert_top(transactions, TxsBody).
 
-draw_transaction({_Hash, Time, Value, Addresses}) ->
+draw_transaction({_Hash, Time, Value, Action, Addresses}) ->
     #panel{actions=#effect{effect=slide, speed=1500}, body=[
         qdate:to_string("Y-m-d g:ia", Time),
-        ": <b>", blockchain:format_amount(Value),"</b> received ",
+        ": ",wf:to_list(Action)," <b>", blockchain:format_amount(Value),"</b> ",
         wf:join(Addresses,", "),
         #hr{}
     ]}.
